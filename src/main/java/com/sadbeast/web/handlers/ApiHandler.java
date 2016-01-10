@@ -35,7 +35,7 @@ public class ApiHandler implements HttpHandler {
     @Override
     public void handleRequest(HttpServerExchange exchange) throws Exception {
         // Redirect to swagger
-        if (exchange.getRelativePath().equals("/") || exchange.getRelativePath().isEmpty()) {
+        if (exchange.getRelativePath().equals("/api") || exchange.getRelativePath().isEmpty()) {
             String scheme = exchange.getRequestScheme();
             if (RemoteIP.inProxy(exchange)) {
                 scheme = "https";
@@ -49,7 +49,7 @@ public class ApiHandler implements HttpHandler {
 
         exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/json");
 
-        if (exchange.getRelativePath().startsWith("/posts")) {
+        if (exchange.getRelativePath().startsWith("/api/posts")) {
             List<PostDto> posts;
             if (exchange.getQueryParameters().containsKey("prev")) {
                 posts = postService.findLatestPosts(Long.valueOf(exchange.getQueryParameters().get("prev").getFirst()));
@@ -62,12 +62,12 @@ public class ApiHandler implements HttpHandler {
             return;
         }
         
-        if (exchange.getRelativePath().startsWith("/post") && exchange.getQueryParameters().containsKey("random")) {
+        if (exchange.getRelativePath().startsWith("/api/post") && exchange.getQueryParameters().containsKey("random")) {
             exchange.getResponseSender().send(mapper.writeValueAsString(postService.random()));
             return;
         }
 
-        if (exchange.getRelativePath().equals("/swagger.json")) {
+        if (exchange.getRelativePath().equals("/api/swagger.json")) {
             Map<String, Object> model = new HashMap<>();
 
             String scheme = exchange.getRequestScheme();

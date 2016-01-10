@@ -21,7 +21,7 @@ public class PostServiceIT {
 
     @Test
     public void postShouldSave() {
-        PostBean post = new PostBean("hep", "127.0.0.1");
+        PostBean post = new PostBean("hep");
 
 /*        long id = postService.createPost(post);
         assertNotNull(id);

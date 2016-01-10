@@ -1,35 +1,24 @@
 package com.sadbeast.web.handlers.admin;
 
 import com.sadbeast.service.PostService;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import io.undertow.server.HttpHandler;
+import com.sadbeast.web.handlers.WebHandler;
 import io.undertow.server.HttpServerExchange;
 
 import javax.inject.Inject;
-import java.io.StringWriter;
-import java.util.HashMap;
 import java.util.Map;
 
-public class DashboardHandler implements HttpHandler {
-    private final Configuration config;
+public class DashboardHandler extends WebHandler {
     private final PostService postService;
 
     @Inject
-    public DashboardHandler(final Configuration config, final PostService postService) {
-        this.config = config;
+    public DashboardHandler(final PostService postService) {
         this.postService = postService;
     }
 
     @Override
-    public void handleRequest(HttpServerExchange exchange) throws Exception {
-        Map<String, Object> model = new HashMap<>();
+    protected String get(HttpServerExchange exchange, Map<String, Object> model) {
         model.put("count", postService.count());
 
-        Template template = config.getTemplate("admin/dashboard.ftl");
-        StringWriter stringWriter = new StringWriter();
-        template.process(model, stringWriter);
-
-        exchange.getResponseSender().send(stringWriter.toString());
+        return "admin/dashboard";
     }
 }

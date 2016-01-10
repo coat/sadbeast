@@ -22,7 +22,7 @@
             <#if errors??>
                 <p style="color:#a94442">${msg.getString("login.error")}</p>
             </#if>
-            <form method="post" action="/admin/authenticate">
+            <form method="content" action="/admin/authenticate">
                 <label for="username">Username</label>
                 <input class="u-full-width" type="text" name="username" id="username" value="${username}" autofocus/>
                 <label for="password">Password</label>

@@ -3,6 +3,7 @@ package com.sadbeast.dto;
 import java.util.Date;
 
 public class PostDto {
+    private String author;
     private String content;
     private Date created;
     private Long index;
@@ -10,8 +11,12 @@ public class PostDto {
     public PostDto() {
     }
 
-    public PostDto(String content) {
-        this.content = content;
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getContent() {

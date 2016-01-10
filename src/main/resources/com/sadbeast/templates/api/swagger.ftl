@@ -16,7 +16,7 @@
   "basePath": "/api",
   "tags": [
     {
-      "name": "post",
+      "name": "content",
       "description": "Everything about posts"
     }
   ],
@@ -24,13 +24,13 @@
     "${scheme}"
   ],
   "paths": {
-    "/post": {
+    "/content": {
       "get": {
         "tags": [
-          "post"
+          "content"
         ],
-        "summary": "Get a post",
-        "description": "Currently only a random post is supported",
+        "summary": "Get a content",
+        "description": "Currently only a random content is supported",
         "operationId": "randomPost",
         "produces": [
           "application/json"
@@ -39,7 +39,7 @@
           {
             "in": "query",
             "name": "random",
-            "description": "If this parameter exists, you will get a random post",
+            "description": "If this parameter exists, you will get a random content",
             "required": true,
             "type": "string",
             "enum": [
@@ -60,7 +60,7 @@
     "/posts": {
       "get": {
         "tags": [
-          "post"
+          "content"
         ],
         "summary": "Get posts",
         "description": "Gets the latest 20 posts",
@@ -106,7 +106,7 @@
       "properties": {
         "content": {
           "type": "string",
-          "example": "This is a post"
+          "example": "This is a content"
         },
         "created": {
           "type": "integer",

@@ -2,6 +2,8 @@ package com.sadbeast;
 
 import com.sadbeast.component.DaggerSadBeast;
 import com.sadbeast.component.SadBeast;
+import com.sadbeast.web.handlers.topic.NewTopicHandler;
+import com.sadbeast.web.handlers.admin.LoginHandler;
 import com.sadbeast.web.security.SBAuthenticationConstraintHandler;
 import com.sadbeast.web.handlers.admin.LogoutHandler;
 import com.typesafe.config.Config;
@@ -14,9 +16,11 @@ import io.undertow.security.handlers.AuthenticationCallHandler;
 import io.undertow.security.handlers.AuthenticationMechanismsHandler;
 import io.undertow.security.handlers.SecurityInitialHandler;
 import io.undertow.server.HttpHandler;
+import io.undertow.server.handlers.PathTemplateHandler;
 import io.undertow.server.handlers.accesslog.AccessLogHandler;
 import io.undertow.server.handlers.error.SimpleErrorPageHandler;
 import io.undertow.server.handlers.resource.ClassPathResourceManager;
+import io.undertow.server.handlers.resource.ResourceHandler;
 import io.undertow.server.session.InMemorySessionManager;
 import io.undertow.server.session.SessionAttachmentHandler;
 import io.undertow.server.session.SessionCookieConfig;
@@ -43,6 +47,8 @@ public class SadBeastApplication implements Runnable {
         SessionCookieConfig sessionConfig = new SessionCookieConfig();
         sessionConfig.setCookieName("session");
 
+        ResourceHandler resourceHandler = Handlers.resource(new ClassPathResourceManager(SadBeastApplication.class.getClassLoader(), "public"));
+
         Undertow server = Undertow.builder()
                 .addHttpListener(config.getInt("web.port"), "localhost")
                 .setHandler(
@@ -50,14 +56,16 @@ public class SadBeastApplication implements Runnable {
                                 new SimpleErrorPageHandler(
                                         new SessionAttachmentHandler(
                                                 addSecurity(
-                                                        Handlers.path(
-                                                                Handlers.resource(new ClassPathResourceManager(SadBeastApplication.class.getClassLoader(), "public"))
-                                                        )
-                                                                .addExactPath("/", sadBeast.postHandler())
-                                                                .addExactPath("/admin/login", sadBeast.loginHandler())
-                                                                .addExactPath("/admin/logout", new LogoutHandler())
-                                                                .addExactPath("/admin", sadBeast.dashboardHandler())
-                                                                .addPrefixPath("/api", sadBeast.apiHandler())
+                                                        new PathTemplateHandler(resourceHandler)
+//                                                                .add("/api/{api}", sadBeast.apiHandler())
+//                                                                .add("/api", sadBeast.apiHandler())
+                                                                .add("/", sadBeast.indexHandler())
+                                                                .add("/topics/{id}/{handle}", sadBeast.topicHandler())
+                                                                .add("/topics/{id}/{handle}/post", sadBeast.postHandler())
+                                                                .add("/topic", sadBeast.newTopicHandler())
+                                                                .add("/admin/login", new LoginHandler())
+                                                                .add("/admin/logout", new LogoutHandler())
+                                                                .add("/admin", sadBeast.dashboardHandler())
 
                                                 ), sessionManager, sessionConfig)
                                 ), log::info, "common", SadBeastApplication.class.getClassLoader()

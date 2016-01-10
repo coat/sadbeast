@@ -33,7 +33,8 @@ OIDS = FALSE
 ALTER TABLE roles
 OWNER TO sadbeast;
 
-INSERT INTO roles (key, name) VALUES ('admin', 'SadBeast Admin');
+INSERT INTO roles (key, name) VALUES ('admin', 'Admin');
+INSERT INTO roles (key, name) VALUES ('user', 'User');
 
 CREATE TABLE permissions
 (
@@ -50,7 +51,8 @@ OIDS = FALSE
 ALTER TABLE permissions
 OWNER TO sadbeast;
 
-INSERT INTO permissions (name) VALUES ('Manage SadBeast');
+INSERT INTO permissions (name) VALUES ('posts:create');
+INSERT INTO permissions (name) VALUES ('posts:delete');
 
 CREATE TABLE role_permissions
 (
@@ -75,6 +77,9 @@ ALTER TABLE role_permissions
 OWNER TO sadbeast;
 
 INSERT INTO role_permissions (role_id, permission_id) VALUES (1, 1);
+INSERT INTO role_permissions (role_id, permission_id) VALUES (1, 2);
+
+INSERT INTO role_permissions (role_id, permission_id) VALUES (2, 1);
 
 CREATE TABLE user_roles
 (
@@ -101,3 +106,7 @@ OWNER TO sadbeast;
 INSERT INTO users (username, password, email, first_name, last_name) VALUES
   ('coat', '$2a$10$vbYq3Zmc3aJtlCLBSrpV6.MtIFd6.Z10fJ9ofGpYq3mR4XjiFfe4.', 'kent.smith@gmail.com', 'Kent', 'Smith');
 INSERT INTO user_roles (user_id, role_id) VALUES (1, 1);
+
+INSERT INTO users (username, password, email, first_name, last_name) VALUES
+  ('mope', '$2a$10$vbYq3Zmc3aJtlCLBSrpV6.MtIFd6.Z10fJ9ofGpYq3mR4XjiFfe4.', 'mope@example.com', 'Some', 'Mope');
+INSERT INTO user_roles (user_id, role_id) VALUES (2, 2);

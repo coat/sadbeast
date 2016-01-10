@@ -2,6 +2,7 @@ package com.sadbeast.service;
 
 import com.sadbeast.dao.PostDao;
 import com.sadbeast.dto.PostDto;
+import com.sadbeast.util.PostUtil;
 import com.sadbeast.web.beans.PostBean;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -43,12 +44,12 @@ public class PostService {
     }
 
     public long createPost(PostBean post) {
-        String original = StringUtils.abbreviate(post.getOriginal(), 1024);
-        post.setOriginal(original);
-
-        String escapedContent = StringEscapeUtils.escapeHtml4(original);
-        post.setContent(PEG_DOWN.markdownToHtml(escapedContent));
+        post.setContent(PostUtil.process(post.getOriginal()));
 
         return postDao.createPost(post);
+    }
+
+    public List<PostDto> findPostsByTopic(final Long topicId) {
+        return postDao.findPostsByTopic(topicId);
     }
 }

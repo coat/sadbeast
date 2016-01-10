@@ -6,7 +6,10 @@ import org.dalesbred.Database;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Date;
 import java.util.List;
+
+import static org.dalesbred.query.SqlQuery.namedQuery;
 
 @Singleton
 public class PostDao {
@@ -44,12 +47,19 @@ public class PostDao {
     }
 
     public long createPost(PostBean post) {
-        long id = db.findUniqueLong("INSERT INTO posts (ip, original, content) VALUES (?, ?, ?) RETURNING post_id",
-                post.getIp(), post.getOriginal(), post.getContent());
+        long id = db.findUniqueLong(namedQuery("INSERT INTO posts (topic_id, user_id, original, content, created, modified) " +
+                "VALUES (:topicId, :userId, :original, :content, :created, :created) RETURNING post_id",
+                post));
+        db.update(namedQuery("UPDATE topics SET modified = :created, posts = posts + 1 WHERE topic_id = :topicId", post));
         new Thread(() -> {
             db.update("REFRESH MATERIALIZED VIEW search_index");
         }).start();
 
         return id;
+    }
+
+    public List<PostDto> findPostsByTopic(final Long topicId) {
+        return db.findAll(PostDto.class, "SELECT u.username AS author, p.content FROM posts p " +
+                "JOIN users u ON p.user_id = u.user_id WHERE topic_id = ? ORDER BY p.created", topicId);
     }
 }

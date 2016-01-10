@@ -7,7 +7,7 @@
             <h4 class="mdl-card__title-text">Posts</h4>
         </div>
         <div class="mdl-card__supporting-text">
-            ${count} <#if count == 1>post<#else>posts</#if>
+            ${count} <#if count == 1>content<#else>posts</#if>
         </div
     </div>
 </div>
