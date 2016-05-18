@@ -1,4 +1,4 @@
-package com.sadbeast.web.handlers.admin;
+package com.sadbeast.web.handlers;
 
 import com.sadbeast.web.handlers.WebHandler;
 import io.undertow.server.HttpServerExchange;

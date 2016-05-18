@@ -1,4 +1,4 @@
-package com.sadbeast.web.handlers.admin;
+package com.sadbeast.web.handlers;
 
 import io.undertow.Handlers;
 import io.undertow.server.HttpHandler;
@@ -12,6 +12,6 @@ public class LogoutHandler implements HttpHandler {
     public void handleRequest(HttpServerExchange exchange) throws Exception {
         exchange.getResponseCookies().put("auth", new CookieImpl("auth").setExpires(new Date(1)));
 
-        exchange.dispatch(Handlers.redirect("/admin/login"));
+        exchange.dispatch(Handlers.redirect("/"));
     }
 }
