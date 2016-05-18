@@ -18,7 +18,7 @@ public class WebModule {
     @Singleton
     @Provides
     public Configuration provideConfiguration() {
-        Configuration config = new Configuration(Configuration.VERSION_2_3_21);
+        Configuration config = new Configuration(Configuration.VERSION_2_3_23);
         config.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
         config.setClassForTemplateLoading(SadBeastApplication.class, "templates");
 

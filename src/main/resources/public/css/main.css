@@ -2,10 +2,10 @@
     font-family: 'fira_sansbold';
     src: url('firasans-bold-webfont.eot');
     src: url('firasans-bold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('firasans-bold-webfont.woff2') format('woff2'),
-         url('firasans-bold-webfont.woff') format('woff'),
-         url('firasans-bold-webfont.ttf') format('truetype'),
-         url('firasans-bold-webfont.svg#fira_sansbold') format('svg');
+    url('firasans-bold-webfont.woff2') format('woff2'),
+    url('firasans-bold-webfont.woff') format('woff'),
+    url('firasans-bold-webfont.ttf') format('truetype'),
+    url('firasans-bold-webfont.svg#fira_sansbold') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -14,32 +14,48 @@ body {
     font-family: 'Droid Serif', serif;
 }
 
-h1 {
+p {
+    margin-bottom: .5rem;
+}
+
+h1, h4 {
     font-family: 'fira_sansbold', sans-serif;
     font-weight: normal;
 }
 
 h1 a, h1 a:hover, h1 a:visited {
     text-decoration: none;
-    color:inherit;
-}
-
-.date {
-    display: none;
-    text-align: right;
-    color:grey;
-}
-
-@media (min-width: 400px) {
-    .date {
-        display: block;
-    }
+    color: inherit;
 }
 
 .stripe {
     background-color: rgb(242, 242, 242);
 }
 
-.post div {
-    padding:2.5rem 1rem 0 1rem;
+.author {
+    border-bottom: 1px solid #ddd;
+}
+
+.last-user {
+    display: none;
+}
+
+.post-count {
+    display: none;
+}
+
+@media (min-width: 550px) {
+    .author {
+        border-right: 1px solid #ddd;
+        border-bottom: none;
+    }
+
+    .last-user {
+        text-align: right;
+        display: block;
+    }
+
+    .post-count {
+        display: block;
+    }
 }

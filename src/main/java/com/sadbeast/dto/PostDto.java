@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class PostDto {
     private String author;
+    private Date authorCreated;
     private String content;
     private Date created;
     private Long index;
@@ -17,6 +18,14 @@ public class PostDto {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public Date getAuthorCreated() {
+        return authorCreated;
+    }
+
+    public void setAuthorCreated(Date authorCreated) {
+        this.authorCreated = authorCreated;
     }
 
     public String getContent() {

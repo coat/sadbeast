@@ -41,7 +41,8 @@ public class JWTUtil {
                     .issueTime(new Date())
                     .jwtID(UUID.randomUUID().toString())
                     .issuer("https://www.sadbeast.com")
-                    .subject(user.getId().toString()).build();
+                    .subject(user.getId().toString())
+                    .build();
 
             SignedJWT signedJWT = new SignedJWT(HEADER, claims);
             signedJWT.sign(SIGNER);

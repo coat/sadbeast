@@ -23,7 +23,6 @@ public class JWTUtilTest {
 
         assertNotNull(tokenString);
 
-
         JWSVerifier verifier = new MACVerifier(ConfigFactory.load().getString("jwt.secret"));
 
         SignedJWT signedJWT = SignedJWT.parse(tokenString);

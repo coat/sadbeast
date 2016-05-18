@@ -1,6 +1,5 @@
 package com.sadbeast.web.handlers;
 
-import com.sadbeast.web.handlers.WebHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.server.session.Session;
 import io.undertow.util.Sessions;
@@ -18,12 +17,7 @@ public class LoginHandler extends WebHandler {
         }
 
         model.put("username", username);
-        if (session.getAttribute("errors") != null) {
-            model.put("errors", session.removeAttribute("errors"));
-        }
 
-        model.put("msg", ResourceBundle.getBundle("messages"));
-
-        return "admin/login";
+        return "login";
     }
 }

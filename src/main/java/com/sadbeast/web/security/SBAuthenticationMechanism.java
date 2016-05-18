@@ -20,17 +20,21 @@ import javax.inject.Singleton;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.Set;
 
+import static com.sadbeast.web.security.SBAuthenticationConstraintHandler.AUTH_OPTIONAL_ATTACHMENT_KEY;
+
 @Singleton
 public class SBAuthenticationMechanism implements AuthenticationMechanism {
     public static final String LOCATION_ATTRIBUTE = SBAuthenticationMechanism.class.getName() + ".LOCATION";
 
-    private static final String AUTHENTICATE_URL = "/admin/authenticate";
-    private static final String LOGIN_URL = "/admin/login";
+    private static final String AUTHENTICATE_URL = "/authenticate";
+    private static final String LOGIN_URL = "/login";
 
     private final Validator validator;
     private final SBIdentityManager identityManager;
@@ -65,7 +69,7 @@ public class SBAuthenticationMechanism implements AuthenticationMechanism {
                             securityContext.authenticationComplete(account, "sb", true);
                             exchange.getResponseCookies().put("auth", buildAuthCookie(account.getToken()));
 //                            handleRedirectBack(exchange);
-                            exchange.dispatch(Handlers.redirect("/admin"));
+                            exchange.dispatch(Handlers.redirect("/"));
 
                             return AuthenticationMechanismOutcome.AUTHENTICATED;
                         }
@@ -105,6 +109,11 @@ public class SBAuthenticationMechanism implements AuthenticationMechanism {
 
     @Override
     public ChallengeResult sendChallenge(HttpServerExchange exchange, SecurityContext securityContext) {
+//        Boolean authOptional = exchange.getAttachment(AUTH_OPTIONAL_ATTACHMENT_KEY);
+//        if (authOptional != null && authOptional) {
+//            return new ChallengeResult(true);
+//        }
+
         if (exchange.getRequestURI().endsWith(AUTHENTICATE_URL) && exchange.getRequestMethod().equals(Methods.POST)) {
             // This method would no longer be called if authentication had already occurred.
             Integer code = servePage(exchange, LOGIN_URL);
@@ -131,9 +140,12 @@ public class SBAuthenticationMechanism implements AuthenticationMechanism {
 
     static void sendRedirect(final HttpServerExchange exchange, final String location) {
         exchange.setRequestMethod(Methods.GET);
-        // TODO - String concatenation to construct URLS is extremely error prone - switch to a URI which will better handle this.
-        String loc = exchange.getRequestScheme() + "://" + exchange.getHostAndPort() + location;
-        exchange.getResponseHeaders().put(Headers.LOCATION, loc);
+        try {
+            URI uri = new URI(exchange.getRequestScheme(), exchange.getHostAndPort() + location, null);
+            exchange.getResponseHeaders().put(Headers.LOCATION, uri.toString());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
     private Cookie buildAuthCookie(final String token) {

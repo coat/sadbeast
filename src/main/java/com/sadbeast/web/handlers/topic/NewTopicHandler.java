@@ -7,7 +7,6 @@ import io.undertow.Handlers;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.server.handlers.form.FormData;
 import io.undertow.server.handlers.form.FormDataParser;
-import io.undertow.server.handlers.form.FormParserFactory;
 import io.undertow.server.session.Session;
 import io.undertow.util.Sessions;
 
@@ -39,9 +38,6 @@ public class NewTopicHandler extends WebHandler {
         }
 
         model.put("topic", topic);
-        if (session.getAttribute("errors") != null) {
-            model.put("errors", session.removeAttribute("errors"));
-        }
 
         return "new_topic";
     }
@@ -50,7 +46,7 @@ public class NewTopicHandler extends WebHandler {
     protected void post(HttpServerExchange exchange) {
         Session session = Sessions.getOrCreateSession(exchange);
 
-        FormDataParser parser = FormParserFactory.builder().build().createParser(exchange);
+        FormDataParser parser = FORM_PARSER_FACTORY.createParser(exchange);
         FormData formData;
         try {
             formData = parser.parseBlocking();

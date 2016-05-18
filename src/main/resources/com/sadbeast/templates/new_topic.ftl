@@ -1,5 +1,6 @@
 <#import "layout.ftl" as layout>
 <@layout.main "New Topic">
+<#if errors??><div style="color:indianred">You have failed</div></#if>
 <form action="/topic" method="post">
     <div class="row">
         <div class="six columns">

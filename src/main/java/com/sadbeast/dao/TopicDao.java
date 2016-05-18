@@ -20,7 +20,6 @@ public class TopicDao {
         this.db = db;
     }
 
-
     public List<TopicDto> getTopicSummaries() {
         return db.findAll(TopicDto.class, "SELECT" +
                 " t.topic_id AS id," +

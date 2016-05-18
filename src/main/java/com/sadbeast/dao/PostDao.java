@@ -59,7 +59,7 @@ public class PostDao {
     }
 
     public List<PostDto> findPostsByTopic(final Long topicId) {
-        return db.findAll(PostDto.class, "SELECT u.username AS author, p.content FROM posts p " +
+        return db.findAll(PostDto.class, "SELECT u.username AS author, u.created AS authorCreated, p.content, p.created FROM posts p " +
                 "JOIN users u ON p.user_id = u.user_id WHERE topic_id = ? ORDER BY p.created", topicId);
     }
 }

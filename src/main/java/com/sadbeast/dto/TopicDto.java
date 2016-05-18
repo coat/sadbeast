@@ -3,6 +3,8 @@ package com.sadbeast.dto;
 import java.util.Date;
 import java.util.List;
 
+import static humanize.Humanize.naturalTime;
+
 public class TopicDto {
     private Long id;
     private String title;
@@ -79,5 +81,9 @@ public class TopicDto {
 
     public String getUrl() {
         return "/topics/" + id + "/" + handle;
+    }
+
+    public String getLastDate() {
+        return naturalTime(modified);
     }
 }

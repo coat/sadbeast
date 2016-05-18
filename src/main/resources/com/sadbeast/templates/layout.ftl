@@ -32,11 +32,20 @@
         </script>
     </head>
     <body>
-    <div class="row" style="padding:1em">
-        <div class="twelve columns">
-            <h1><a href="/">SadBeast</a></h1>
-            <#nested>
+    <div class="container">
+        <div class="row">
+            <div class="ten columns">
+                <h1><a href="/">SadBeast</a></h1>
+            </div>
+            <div class="two columns" style="text-align: right;margin-top: 1rem">
+                <#if account??>
+                    <a href="/logout">Logout</a>
+                <#else>
+                    <a href="/login">Login</a>
+                </#if>
+            </div>
         </div>
+        <#nested>
     </div>
     </body>
     </html>

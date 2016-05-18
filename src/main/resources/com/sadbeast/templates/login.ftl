@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Sadbeast Admin Login</title>
+    <title>Sadbeast - Login</title>
     <link href="//fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet" type="text/css">
     <link href="/css/normalize.css" rel="stylesheet" type="text/css">
     <link href="/css/skeleton.css" rel="stylesheet" type="text/css">
@@ -18,11 +18,11 @@
             <p></p>
         </div>
         <div class="four columns">
-            <h4>SadBeast Admin</h4>
+            <h4>Login to SadBeast</h4>
             <#if errors??>
                 <p style="color:#a94442">${msg.getString("login.error")}</p>
             </#if>
-            <form method="content" action="/admin/authenticate">
+            <form method="post" action="/authenticate">
                 <label for="username">Username</label>
                 <input class="u-full-width" type="text" name="username" id="username" value="${username}" autofocus/>
                 <label for="password">Password</label>

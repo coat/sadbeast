@@ -2,10 +2,11 @@ package com.sadbeast;
 
 import com.sadbeast.component.DaggerSadBeast;
 import com.sadbeast.component.SadBeast;
-import com.sadbeast.web.handlers.topic.NewTopicHandler;
-import com.sadbeast.web.handlers.admin.LoginHandler;
+import com.sadbeast.web.handlers.LoginHandler;
+import com.sadbeast.web.security.JWTAuthenticationMechanism;
+import com.sadbeast.web.security.SBAuthenticationCallHandler;
 import com.sadbeast.web.security.SBAuthenticationConstraintHandler;
-import com.sadbeast.web.handlers.admin.LogoutHandler;
+import com.sadbeast.web.handlers.LogoutHandler;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import io.undertow.Handlers;
@@ -57,14 +58,12 @@ public class SadBeastApplication implements Runnable {
                                         new SessionAttachmentHandler(
                                                 addSecurity(
                                                         new PathTemplateHandler(resourceHandler)
-//                                                                .add("/api/{api}", sadBeast.apiHandler())
-//                                                                .add("/api", sadBeast.apiHandler())
                                                                 .add("/", sadBeast.indexHandler())
                                                                 .add("/topics/{id}/{handle}", sadBeast.topicHandler())
                                                                 .add("/topics/{id}/{handle}/post", sadBeast.postHandler())
                                                                 .add("/topic", sadBeast.newTopicHandler())
-                                                                .add("/admin/login", new LoginHandler())
-                                                                .add("/admin/logout", new LogoutHandler())
+                                                                .add("/login", new LoginHandler())
+                                                                .add("/logout", new LogoutHandler())
                                                                 .add("/admin", sadBeast.dashboardHandler())
 
                                                 ), sessionManager, sessionConfig)
@@ -77,9 +76,10 @@ public class SadBeastApplication implements Runnable {
 
     private HttpHandler addSecurity(final HttpHandler toWrap) {
         HttpHandler handler = toWrap;
-        handler = new AuthenticationCallHandler(handler);
+        handler = new SBAuthenticationCallHandler(handler);
         handler = new SBAuthenticationConstraintHandler(handler);
         final List<AuthenticationMechanism> mechanisms = Collections.<AuthenticationMechanism>singletonList(sadBeast.authenticationMechanism());
+//        final List<AuthenticationMechanism> mechanisms = Collections.<AuthenticationMechanism>singletonList(new JWTAuthenticationMechanism());
         handler = new AuthenticationMechanismsHandler(handler, mechanisms);
         handler = new SecurityInitialHandler(AuthenticationMode.CONSTRAINT_DRIVEN, sadBeast.identityManager(), handler);
 

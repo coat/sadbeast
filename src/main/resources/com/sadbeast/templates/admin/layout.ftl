@@ -49,7 +49,7 @@
         </header>-->
         <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
           <a class="mdl-navigation__link" href="/admin"><i class="mdl-color-text--blue-grey-400 material-icons">home</i>Dashboard</a>
-          <a class="mdl-navigation__link" href="/admin/logout"><i class="mdl-color-text--blue-grey-400 material-icons">exit_to_app</i>Logout</a>
+          <a class="mdl-navigation__link" href="/logout"><i class="mdl-color-text--blue-grey-400 material-icons">exit_to_app</i>Logout</a>
         </nav>
       </div>
       <main class="mdl-layout__content mdl-color--grey-100">

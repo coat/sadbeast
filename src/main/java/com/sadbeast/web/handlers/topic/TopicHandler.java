@@ -19,7 +19,7 @@ public class TopicHandler extends WebHandler {
 
     @Override
     protected String get(HttpServerExchange exchange, Map<String, Object> model) {
-        model.put("topic", topicService.getTopic(Long.valueOf(exchange.getQueryParameters().get("id").getFirst())));
+        model.put("topic", topicService.getTopic(Long.valueOf(param(exchange, "id"))));
 
         return "topic";
     }

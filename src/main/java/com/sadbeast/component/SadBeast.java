@@ -5,7 +5,6 @@ import com.sadbeast.web.handlers.ApiHandler;
 import com.sadbeast.web.handlers.IndexHandler;
 import com.sadbeast.web.handlers.PostHandler;
 import com.sadbeast.web.handlers.admin.DashboardHandler;
-import com.sadbeast.web.handlers.admin.LoginHandler;
 import com.sadbeast.web.handlers.topic.NewTopicHandler;
 import com.sadbeast.web.handlers.topic.TopicHandler;
 import com.sadbeast.web.security.SBAuthenticationMechanism;
